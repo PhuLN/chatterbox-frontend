@@ -1,6 +1,6 @@
-# electron-web
+# Electron Chat Web Version
 
-> A Vue.js project
+> Web version of a chat application that will later be ported to Electron
 
 ## Build Setup
 
