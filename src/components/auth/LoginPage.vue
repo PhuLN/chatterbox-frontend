@@ -3,8 +3,19 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-4 is-offset-4">
-          <LoginForm />
+          <LoginForm :class="{ hide: !loginFormVisible }"/>
+          <SignupForm :class="{ hide: loginFormVisible }" />
         </div>
+
+        <p v-if="loginFormVisible" class="is-size-4 has-text-grey">
+          Don't have an account?
+          <a class="switchmode" @click="loginFormVisible = false">Sign up</a>
+        </p>
+
+        <p v-else class="is-size-4 has-text-grey">
+          Already signed up?
+          <a class="switchmode" @click="loginFormVisible = true">Login</a>
+        </p>
       </div>
     </div>
 
@@ -20,15 +31,28 @@
 
 <script>
 import LoginForm from '@/components/auth/LoginForm';
+import SignupForm from '@/components/auth/SignupForm';
 
 export default {
   components: {
     LoginForm,
+    SignupForm,
+  },
+  data() {
+    return {
+      loginFormVisible: true,
+    };
   },
 };
 </script>
 
 <style scoped>
+  .hide {
+    display: none;
+  }
+  .switchmode:hover {
+    color: #46BDDF;
+  }
   .hero.is-success {
     background: #1B1B24;
   }

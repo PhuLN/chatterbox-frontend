@@ -1,10 +1,17 @@
 <template>
   <div id="login" class="box is-paddingless">
     <div id="login-header">
-        <h3 class="title has-text-light">Welcome back</h3>
+        <h3 class="title has-text-light">Welcome</h3>
     </div>
 
     <form>
+      <div class="field">
+        <label class="control field-animation">
+          <input v-model="username" class="login-input input" type="text" required autofocus="">
+          <div class="label-field has-text-grey">Username</div>
+        </label>
+      </div>
+
       <div class="field">
         <label class="control field-animation">
           <input v-model="email" class="login-input input" type="text" required autofocus="">
@@ -12,16 +19,16 @@
         </label>
       </div>
 
-        <div class="field">
-          <label class="control field-animation">
-            <input v-model="password" class="login-input input" type="password" required>
-            <div class="label-field has-text-grey">Password</div>
-          </label>
-        </div>
+      <div class="field">
+        <label class="control field-animation">
+          <input v-model="password" class="login-input input" type="password" required>
+          <div class="label-field has-text-grey">Password</div>
+        </label>
+      </div>
     </form>
 
     <div id="login-btn-container">
-      <button @click="attemptLogin()" id="login-btn" class="button is-primary">Login</button>
+      <button @click="attemptSignup()" id="login-btn" class="button is-primary">Sign up</button>
     </div>
   </div>
 </template>
@@ -30,13 +37,15 @@
 export default {
   data() {
     return {
+      username: '',
       email: '',
       password: '',
     };
   },
   methods: {
-    attemptLogin() {
-      this.$store.dispatch('userLogin', {
+    attemptSignup() {
+      this.$store.dispatch('userSignup', {
+        username: this.username,
         email: this.email,
         password: this.password,
       }).then(() => {

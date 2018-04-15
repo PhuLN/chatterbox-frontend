@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Auth from '@/components/auth/LoginPage';
-import ChatRoom from '@/components/chat/PageStructure';
 
 Vue.use(Router);
 
@@ -11,7 +9,7 @@ const router = new Router({
     {
       path: '/',
       name: 'ChatRoom',
-      component: ChatRoom,
+      component: () => import('@/components/chat/PageStructure'),
       meta: {
         title: 'Chat',
       },
@@ -19,7 +17,7 @@ const router = new Router({
     {
       path: '/signin',
       name: 'Authentication',
-      component: Auth,
+      component: () => import('@/components/auth/LoginPage'),
       meta: {
         title: 'Auth',
       },
