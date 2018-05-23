@@ -49,7 +49,6 @@ const mutations = {
     state.accessibleChats.push(response.data);
   },
   setAccessibleChats(state, response) {
-    console.log(response.data);
     state.accessibleChats = response.data;
   }
 };
