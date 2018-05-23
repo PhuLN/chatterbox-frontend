@@ -8,6 +8,7 @@ const state = {
 
 const getters = {
   getToken: state => state.user.token,
+  isAuthenticated: state => !!state.user.token
 };
 
 const actions = {
@@ -35,7 +36,6 @@ const actions = {
         user,
       },
     }).then((res) => {
-      console.log(res.data.user);
       commit('setLoginDetails', res.data);
     });
   },

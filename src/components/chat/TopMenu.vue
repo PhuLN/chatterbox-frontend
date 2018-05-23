@@ -10,10 +10,14 @@
     <nav :class="{ overflowY: topMenuIsActive }">
       <div class="container" style="margin-top: 50px; display: flex; justify-content: center">
         <div class="column is-5">
-          <Group />
-          <Group />
-          <Group />
-          <Group />
+          <h2 class="crossed_out">
+            <span class="chatlist_header">Your chats</span>
+          </h2>
+          <Chat v-for="chat in getAccessibleChats" :key="chat._id" :chatDetails="chat" />
+          <h2 class="crossed_out"></h2>
+
+          <input type="button" value="New chatroom"
+          class="button is-primary" @click="launchChatRoomCreator">
         </div>
       </div>
     </nav>
@@ -21,21 +25,49 @@
 </template>
 
 <script>
-import Group from '@/components/chat/GroupCard';
+import Chat from '@/components/chat/ChatCard';
+import CreateGroup from '@/components/chat/modals/CreateGroup';
 
 export default {
   components: {
-    Group,
+    Chat,
+    CreateGroup,
   },
   data() {
     return {
       topMenuIsActive: false,
     };
   },
+  methods: {
+    launchChatRoomCreator() {
+      this.$modal.open({
+        component: CreateGroup,
+        parent: this,
+      });
+    },
+  },
+  computed: {
+    getAccessibleChats() {
+      console.log(this.$store.getters.getAccessibleChats);
+      return this.$store.getters.getAccessibleChats;
+    },
+  },
 };
 </script>
 
 <style>
+  .crossed_out {
+    width:100%;
+    text-align:center;
+    border-bottom: 1px solid #dbdbdb;
+    line-height:0.1em;
+    margin:10px 0 20px;
+  }
+  .chatlist_header {
+    padding: 0 10px;
+    background: #202225;
+    color: white;
+  }
   .overflowY {
     overflow-y: auto;
   }

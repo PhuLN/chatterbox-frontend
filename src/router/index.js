@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import store from './../store';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -11,15 +13,15 @@ const router = new Router({
       name: 'ChatRoom',
       component: () => import('@/components/chat/PageStructure'),
       meta: {
-        title: 'Chat',
+        title: 'Chatterbox',
       },
     },
     {
-      path: '/signin',
+      path: '/login',
       name: 'Authentication',
       component: () => import('@/components/auth/LoginPage'),
       meta: {
-        title: 'Auth',
+        title: 'Chatterbox - Auth',
       },
     },
   ],
@@ -27,7 +29,15 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  next();
+  if (!store.getters.isAuthenticated && to.name !== 'Authentication') {
+    next('/login');
+  } 
+  else if (store.getters.isAuthenticated && to.name === 'Authentication') {
+    next('/');
+  }
+  else {
+    next();
+  }
 });
 
 export default router;

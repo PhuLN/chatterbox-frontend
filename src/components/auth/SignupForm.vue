@@ -49,7 +49,15 @@ export default {
         email: this.email,
         password: this.password,
       }).then(() => {
-        // alert(this.$store.getters.getToken);
+        this.$router.push({ name: 'ChatRoom' });
+      }).catch((e) => {
+        this.$toast.open({
+          message: e.response.data.error,
+          type: 'is-danger',
+          queue: false,
+          duration: 3000,
+          position: 'is-bottom-right',
+        });
       });
     },
   },

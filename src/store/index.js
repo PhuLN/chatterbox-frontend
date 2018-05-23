@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import persist from 'vuex-persistedstate';
 
 import auth from './auth.module';
+import chatroom from './chatroom.module';
 
 Vue.use(Vuex);
 
@@ -10,5 +11,6 @@ export default new Vuex.Store({
   plugins: [persist()],
   modules: {
     auth,
+    chatroom,
   },
 });

@@ -9,18 +9,23 @@
       <ChatMessage />
     </div>
     <div class="right-menu"></div>
-    <div class="lower-menu"></div>
+    <div class="lower-menu"><ChatBox /></div>
   </div>
 </template>
 
 <script>
 import TopMenu from '@/components/chat/TopMenu';
 import ChatMessage from '@/components/chat/Message';
+import ChatBox from '@/components/chat/ChatBox';
 
 export default {
   components: {
     TopMenu,
     ChatMessage,
+    ChatBox,
+  },
+  mounted() {
+    this.$store.dispatch('fetchAccessibleChats');
   },
 };
 </script>
