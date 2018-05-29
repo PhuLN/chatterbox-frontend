@@ -31,7 +31,7 @@ export default {
   props: ['chatDetails'],
   methods: {
     joinChat() {
-      this.$socket.emit('attemptJoinChat', this.chatDetails._id);
+      this.$socket.emit('attemptJoinChat', this.chatDetails.roomName);
     },
   },
 };
