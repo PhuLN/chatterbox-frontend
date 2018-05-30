@@ -10,7 +10,6 @@ const state = {
 
 const actions = {
   sendMessage({ commit }, message) {
-    console.log(message);
     return axios({
       method: 'POST',
       url: `${process.env.API_URL}/chat/create`,
@@ -22,9 +21,8 @@ const actions = {
       data: {
         message,
       },
-    }).then((response) => {
-      console.log(response);
-      commit('setCurrentChat', response);
+    }).then(() => {
+      commit('nothing');
     });
   },
   receiveMessage({ commit }, message) {
@@ -51,7 +49,6 @@ const actions = {
 
 const mutations = {
   setMessages(state, response) {
-    console.log(response.data);
     state.messages = response.data;
   },
   addNewMessage(state, message) {
@@ -59,6 +56,9 @@ const mutations = {
   },
   clearMessages(state) {
     state.messages = [];
+  },
+  nothing() {
+    // Literally nothing
   },
 };
 

@@ -23,6 +23,8 @@ import TopMenu from '@/components/chat/TopMenu';
 import ChatMessage from '@/components/chat/Message';
 import ChatBox from '@/components/chat/ChatBox';
 
+import _ from 'lodash';
+
 export default {
   components: {
     TopMenu,
@@ -45,8 +47,11 @@ export default {
   },
   sockets: {
     newMessage(msg) {
-      this.$store.dispatch('receiveMessage', msg);
-    }
+      this.$store.dispatch('receiveMessage', msg).then(() => {
+        const container = this.$el.querySelector('.main-section');
+        container.scrollTop = container.scrollHeight;
+      });
+    },
   },
 };
 </script>
@@ -70,7 +75,7 @@ export default {
   grid-column: span 8;
   background-color: #36393E;
   height:100%;
-  overflow-y:scroll;
+  overflow-y:auto;
 }
 .right-menu {
   grid-column: span 2;

@@ -20,9 +20,9 @@ export default {
     sendMessage() {
       if (this.message) {
         this.$socket.emit('sendMessage', {
-          author: this.$store.getters.getUser,
-          text: this.message,
-          timestamp: Date.now(),
+          author: this.$store.getters.getUser._id,
+          message: this.message,
+          createdAt: new Date(Date.now()).toISOString(),
         });
         this.$store.dispatch('sendMessage', {
           chatId: this.$store.getters.getCurrentChat._id,
