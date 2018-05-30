@@ -5,11 +5,16 @@
     </div>
     <div class="left-menu"></div>
     <div class="main-section box is-radiusless">
-      <ChatMessage />
-      <ChatMessage />
+      <ChatMessage v-for="message in chatMessages" :key="message._id" :message="message" />
     </div>
-    <div class="right-menu"></div>
-    <div class="lower-menu"><ChatBox /></div>
+    <div class="right-menu">
+      <ul>
+        <li class="has-text-white" v-for="user in users" :key="user._id">{{ user.username }}</li>
+      </ul>
+    </div>
+    <div class="lower-menu">
+      <ChatBox v-if="hasSelectedChat" />
+    </div>
   </div>
 </template>
 
@@ -17,6 +22,8 @@
 import TopMenu from '@/components/chat/TopMenu';
 import ChatMessage from '@/components/chat/Message';
 import ChatBox from '@/components/chat/ChatBox';
+
+import _ from 'lodash';
 
 export default {
   components: {
@@ -26,6 +33,25 @@ export default {
   },
   mounted() {
     this.$store.dispatch('fetchAccessibleChats');
+  },
+  computed: {
+    chatMessages() {
+      return this.$store.getters.getMessages;
+    },
+    hasSelectedChat() {
+      return !_.isEmpty(this.$store.getters.getCurrentChat);
+    },
+    users() {
+      return this.$store.getters.getMembers;
+    },
+  },
+  sockets: {
+    newMessage(msg) {
+      this.$store.dispatch('receiveMessage', msg).then(() => {
+        const container = this.$el.querySelector('.main-section');
+        container.scrollTop = container.scrollHeight;
+      });
+    },
   },
 };
 </script>
@@ -49,7 +75,7 @@ export default {
   grid-column: span 8;
   background-color: #36393E;
   height:100%;
-  overflow-y:scroll;
+  overflow-y:auto;
 }
 .right-menu {
   grid-column: span 2;

@@ -1,11 +1,13 @@
 <template>
   <div>
     <input type="text" name="" id="msg-box" class="input" v-model="message">
-    <input type="button" value="Send" class="button is-primary" @click="send">
+    <input type="button" value="Send" class="button is-primary" @click="sendMessage">
   </div>
 </template>
 
 <script>
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+
 import axios from 'axios';
 
 export default {
@@ -15,21 +17,18 @@ export default {
     };
   },
   methods: {
-    send() {
-      axios({
-        method: 'POST',
-        url: `${process.env.API_URL}/chatrooms/testmsg`,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: {
+    sendMessage() {
+      if (this.message) {
+        this.$socket.emit('sendMessage', {
+          author: this.$store.getters.getUser._id,
           message: this.message,
-        },
-      });
-    },
-  },
-  sockets: {
-    send(val) {
-      alert(val);
+          createdAt: new Date(Date.now()).toISOString(),
+        });
+        this.$store.dispatch('sendMessage', {
+          chatId: this.$store.getters.getCurrentChat._id,
+          text: this.message,
+        });
+      }
     },
   },
 };
