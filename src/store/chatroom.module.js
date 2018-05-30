@@ -4,10 +4,8 @@ import axios from 'axios';
 import store from './index';
 
 const state = {
-  currentChat: {
-    details: {},
-    messages: {},
-  },
+  currentChat: {},
+  currentChatMembers: [],
   accessibleChats: [],
 };
 
@@ -28,7 +26,10 @@ const actions = {
       commit('setCurrentChat', response);
     });
   },
-  fetchAccessibleChats({commit}) {
+  setCurrentChat({ commit }, chat) {
+    commit('setCurrentChat', chat);
+  },
+  fetchAccessibleChats({ commit }) {
     return axios({
       method: 'GET',
       url: `${process.env.API_URL}/chatrooms/yourchats`,
@@ -40,22 +41,39 @@ const actions = {
     }).then((response) => {
       commit('setAccessibleChats', response);
     });
+  },
+  fetchChatMembers({ commit }) {
+    return axios.get(`${process.env.API_URL}/chatrooms/chatmembers`, {
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      headers: {
+        Token: store.getters.getToken,
+      },
+      params: {
+        chatId: store.getters.getCurrentChat._id,
+      },
+    }).then((response) => {
+      commit('setMembers', response);
+    });
   }
 };
 
 const mutations = {
-  setCurrentChat(state, response) {
-    state.currentChat = response.data;
-    state.accessibleChats.push(response.data);
+  setCurrentChat(state, chat) {
+    state.currentChat = chat;
   },
   setAccessibleChats(state, response) {
     state.accessibleChats = response.data;
-  }
+  },
+  setMembers(state, members) {
+    state.currentChatMembers = members.data;
+  },
 };
 
 const getters = {
   getCurrentChat: state => state.currentChat,
   getAccessibleChats: state => state.accessibleChats,
+  getMembers: state => state.currentChatMembers,
 };
 
 export default {

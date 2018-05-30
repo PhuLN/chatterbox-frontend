@@ -48,7 +48,6 @@ export default {
   },
   computed: {
     getAccessibleChats() {
-      console.log(this.$store.getters.getAccessibleChats);
       return this.$store.getters.getAccessibleChats;
     },
   },

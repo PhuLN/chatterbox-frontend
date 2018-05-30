@@ -3,24 +3,33 @@
       <li class="chatMessage text-left">
         <div class="msg-info">
           <figure class="image is-48x48">
-            <img src="https://avatars0.githubusercontent.com/u/29359008?s=400&v=4" alt="" class="round-image">
+            <img :src="author.profileImage" alt="" class="round-image">
           </figure>
           <div>
-            <p class="author is-size-4 has-text-white-ter">Dog</p>
-            <p class="has-text-grey is-size-7">10:35 AM - 13/04/2018 </p>
+            <p class="author is-size-4 has-text-white-ter">{{ author.username }}</p>
+            <p class="has-text-grey is-size-7">{{ message.createdAt }}</p>
           </div>
         </div>
         <div>
           <p class="has-text-white-ter chat-message">
-            This is a very long and boring message that adds nothing of substance to the
-            conversation but it's here anyway as placeholder text so that we can see how
-            it will look since we're too lazy to make a working prototype
+            {{ message.message }}
           </p>
         </div>
       </li>
       <hr class="message-divider">
     </div>
 </template>
+
+<script>
+export default {
+  props: ['message'],
+  computed: {
+    author() {
+      return _.find(this.$store.getters.getMembers, member => member._id === this.message.author);
+    },
+  },
+};
+</script>
 
 <style scoped>
   .chatMessage {

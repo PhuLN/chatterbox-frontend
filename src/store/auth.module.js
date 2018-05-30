@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 
 import axios from 'axios';
+import _ from 'lodash';
 
 const state = {
   user: {},
@@ -8,7 +9,8 @@ const state = {
 
 const getters = {
   getToken: state => state.user.token,
-  isAuthenticated: state => !!state.user.token
+  isAuthenticated: state => !!state.user.token,
+  getUser: state => _.pick(state.user, ['_id', 'username', 'profileImage']),
 };
 
 const actions = {
