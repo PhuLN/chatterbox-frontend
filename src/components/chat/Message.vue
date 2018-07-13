@@ -1,6 +1,6 @@
 <template>
     <div>
-      <li class="chatMessage text-left">
+      <div class="chatMessage text-left">
         <div class="msg-info">
           <figure class="image is-48x48">
             <img :src="author.profileImage" alt="" class="round-image">
@@ -15,12 +15,16 @@
             {{ message.message }}
           </p>
         </div>
-      </li>
+      </div>
       <hr class="message-divider">
     </div>
 </template>
 
 <script>
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+
+import _ from 'lodash';
+
 export default {
   props: ['message'],
   computed: {
@@ -48,7 +52,7 @@ export default {
     border-radius: 100%;
   }
   .chat-message {
-    color: hsl(0, 0%, 75%)
+    color: hsl(0, 0%, 75%);
   }
   .message-divider {
     border: 0;

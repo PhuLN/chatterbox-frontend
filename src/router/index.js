@@ -11,7 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'ChatRoom',
-      component: () => import('@/components/chat/PageStructure'),
+      component: () => import('@/components/chat/structure/PageStructure'),
       meta: {
         title: 'Chatterbox',
       },
@@ -31,11 +31,9 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   if (!store.getters.isAuthenticated && to.name !== 'Authentication') {
     next('/login');
-  } 
-  else if (store.getters.isAuthenticated && to.name === 'Authentication') {
+  } else if (store.getters.isAuthenticated && to.name === 'Authentication') {
     next('/');
-  }
-  else {
+  } else {
     next();
   }
 });

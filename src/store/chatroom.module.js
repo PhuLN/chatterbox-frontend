@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 
 import axios from 'axios';
 import store from './index';
@@ -23,10 +24,44 @@ const actions = {
         chat,
       },
     }).then((response) => {
+      commit('setCurrentChat', response.data);
+      commit('addChat', response.data);
+    });
+  },
+  joinChatroom({ commit }, invite) {
+    return axios({
+      method: 'POST',
+      url: `${process.env.API_URL}/invite/join`,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      headers: {
+        Token: store.getters.getToken,
+      },
+      data: {
+        invite,
+      },
+    }).then((response) => {
+      commit('addChat', response.data);
+    });
+  },
+  updateCurrentChatDetails({ commit }) {
+    return axios({
+      method: 'GET',
+      url: `${process.env.API_URL}/chatrooms/chat`,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      headers: {
+        Token: store.getters.getToken,
+      },
+      params: {
+        chatId: store.getters.getCurrentChat._id,
+      },
+    }).then((response) => {
       commit('setCurrentChat', response);
     });
   },
   setCurrentChat({ commit }, chat) {
+    console.log(chat);
     commit('setCurrentChat', chat);
   },
   fetchAccessibleChats({ commit }) {
@@ -55,18 +90,24 @@ const actions = {
     }).then((response) => {
       commit('setMembers', response);
     });
-  }
+  },
 };
 
 const mutations = {
   setCurrentChat(state, chat) {
     state.currentChat = chat;
   },
+  addChat(state, chat) {
+    state.accessibleChats.push(chat);
+  },
   setAccessibleChats(state, response) {
     state.accessibleChats = response.data;
   },
   setMembers(state, members) {
+    console.log(members.data);
     state.currentChatMembers = members.data;
+    console.log(state.currentChatMembers);
+    console.log(state.currentChatMembers[0]);
   },
 };
 

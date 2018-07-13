@@ -18,6 +18,8 @@
 
           <input type="button" value="New chatroom"
           class="button is-primary" @click="launchChatRoomCreator">
+          <input type="button" value="Join chatroom"
+          class="button is-primary" @click="launchChatJoiner">
         </div>
       </div>
     </nav>
@@ -27,11 +29,13 @@
 <script>
 import Chat from '@/components/chat/ChatCard';
 import CreateGroup from '@/components/chat/modals/CreateGroup';
+import JoinGroup from '@/components/chat/modals/JoinChat';
 
 export default {
   components: {
     Chat,
     CreateGroup,
+    JoinGroup,
   },
   data() {
     return {
@@ -42,6 +46,12 @@ export default {
     launchChatRoomCreator() {
       this.$modal.open({
         component: CreateGroup,
+        parent: this,
+      });
+    },
+    launchChatJoiner() {
+      this.$modal.open({
+        component: JoinGroup,
         parent: this,
       });
     },

@@ -8,9 +8,7 @@
       <ChatMessage v-for="message in chatMessages" :key="message._id" :message="message" />
     </div>
     <div class="right-menu">
-      <ul>
-        <li class="has-text-white" v-for="user in users" :key="user._id">{{ user.username }}</li>
-      </ul>
+      <RightMenu />
     </div>
     <div class="lower-menu">
       <ChatBox v-if="hasSelectedChat" />
@@ -19,7 +17,8 @@
 </template>
 
 <script>
-import TopMenu from '@/components/chat/TopMenu';
+import TopMenu from '@/components/chat/structure/TopMenu';
+import RightMenu from '@/components/chat/structure/RightMenu';
 import ChatMessage from '@/components/chat/Message';
 import ChatBox from '@/components/chat/ChatBox';
 
@@ -28,6 +27,7 @@ import _ from 'lodash';
 export default {
   components: {
     TopMenu,
+    RightMenu,
     ChatMessage,
     ChatBox,
   },
@@ -47,10 +47,15 @@ export default {
   },
   sockets: {
     newMessage(msg) {
+      console.log(msg);
       this.$store.dispatch('receiveMessage', msg).then(() => {
         const container = this.$el.querySelector('.main-section');
         container.scrollTop = container.scrollHeight;
       });
+      console.log('after');
+    },
+    newUserJoined() {
+      this.$store.dispatch('fetchChatMembers');
     },
   },
 };
