@@ -1,6 +1,7 @@
 <template>
   <div>
-    <input type="text" name="" id="msg-box" class="input" v-model="message">
+    <input type="text" name="" id="msg-box" class="input" v-model="message"
+    @keyup.enter="sendMessage">
     <input type="button" value="Send" class="button is-primary" @click="sendMessage">
   </div>
 </template>
@@ -26,6 +27,7 @@ export default {
           chatId: this.$store.getters.getCurrentChat._id,
           text: this.message,
         });
+        this.message = '';
       }
     },
   },

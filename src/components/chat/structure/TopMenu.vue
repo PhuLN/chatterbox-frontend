@@ -13,13 +13,15 @@
           <h2 class="crossed_out">
             <span class="chatlist_header">Your chats</span>
           </h2>
-          <Chat v-for="chat in getAccessibleChats" :key="chat._id" :chatDetails="chat" />
+          <Chat v-for="chat in getAccessibleChats" :key="chat._id" :chatDetails="chat" @closeMenu="topMenuIsActive = false"/>
           <h2 class="crossed_out"></h2>
 
           <input type="button" value="New chatroom"
           class="button is-primary" @click="launchChatRoomCreator">
           <input type="button" value="Join chatroom"
           class="button is-primary" @click="launchChatJoiner">
+          <input type="button" value="Log off"
+          class="button is-danger" @click="logoff">
         </div>
       </div>
     </nav>
@@ -54,6 +56,10 @@ export default {
         component: JoinGroup,
         parent: this,
       });
+    },
+    logoff() {
+      this.$store.dispatch('logoff');
+      this.$router.push({ name: 'Authentication' });
     },
   },
   computed: {

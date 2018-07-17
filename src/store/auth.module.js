@@ -41,11 +41,18 @@ const actions = {
       commit('setLoginDetails', res.data);
     });
   },
+
+  logoff({ commit }) {
+    commit('logoff');
+  },
 };
 
 const mutations = {
   setLoginDetails(state, { user }) {
     state.user = user;
+  },
+  logoff(state) {
+    state.user = {};
   },
 };
 

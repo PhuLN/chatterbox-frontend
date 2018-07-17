@@ -31,11 +31,14 @@ export default {
   props: ['chatDetails'],
   methods: {
     joinChat() {
-      this.$store.dispatch('setCurrentChat', this.chatDetails);
-      this.$store.dispatch('clearMessages');
-      this.$store.dispatch('fetchMessagesInChat');
-      this.$store.dispatch('fetchChatMembers');
-      this.$socket.emit('attemptJoinChat', this.chatDetails.roomName);
+      if (this.$store.getters.getCurrentChat.roomName !== this.chatDetails.roomName) {
+        this.$store.dispatch('setCurrentChat', this.chatDetails);
+        this.$store.dispatch('clearMessages');
+        this.$store.dispatch('fetchMessagesInChat');
+        this.$store.dispatch('fetchChatMembers');
+        this.$socket.emit('attemptJoinChat', this.chatDetails.roomName);
+        this.$emit('closeMenu');
+      }
     },
   },
 };
