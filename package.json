@@ -1,12 +1,12 @@
 {
-  "name": "electron-web",
+  "name": "chatterbox",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "PhuLN <docroflcopter@gmail.com>",
+  "description": "A real time chat application",
+  "author": "PhuLN",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "start": "node server.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
@@ -14,6 +14,7 @@
     "axios": "^0.18.0",
     "buefy": "^0.6.5",
     "eslint-plugin-html": "^4.0.3",
+    "express": "^4.16.3",
     "lodash": "^4.17.10",
     "node-sass": "^4.8.3",
     "sass-loader": "^6.0.7",
