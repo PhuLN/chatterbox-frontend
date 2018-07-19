@@ -8,22 +8,26 @@
     </label>
 
     <nav :class="{ overflowY: topMenuIsActive }">
-      <div class="container" style="margin-top: 50px; display: flex; justify-content: center">
-        <div class="column is-5">
-          <h2 class="crossed_out">
-            <span class="chatlist_header">Your chats</span>
-          </h2>
-          <Chat v-for="chat in getAccessibleChats" :key="chat._id" :chatDetails="chat" @closeMenu="topMenuIsActive = false"/>
-          <h2 class="crossed_out"></h2>
+      <transition>
+        <div v-if="topMenuIsActive" class="container delay-fade"
+        style="margin-top: 50px; display: flex; justify-content: center">
+          <div class="column is-5">
+            <h2 class="crossed_out">
+              <span class="chatlist_header">Your chats</span>
+            </h2>
+            <Chat v-for="chat in getAccessibleChats" :key="chat._id"
+            :chatDetails="chat" @closeMenu="topMenuIsActive = false"/>
+            <h2 class="crossed_out"></h2>
 
-          <input type="button" value="New chatroom"
-          class="button is-primary" @click="launchChatRoomCreator">
-          <input type="button" value="Join chatroom"
-          class="button is-primary" @click="launchChatJoiner">
-          <input type="button" value="Log off"
-          class="button is-danger" @click="logoff">
+            <input type="button" value="New chatroom"
+            class="button is-primary" @click="launchChatRoomCreator">
+            <input type="button" value="Join chatroom"
+            class="button is-primary" @click="launchChatJoiner">
+            <input type="button" value="Log off"
+            class="button is-danger" @click="logoff">
+          </div>
         </div>
-      </div>
+      </transition>
     </nav>
   </div>
 </template>
@@ -59,6 +63,8 @@ export default {
     },
     logoff() {
       this.$store.dispatch('logoff');
+      this.$store.dispatch('clearMessages');
+      this.$store.dispatch('clearChatrooms');
       this.$router.push({ name: 'Authentication' });
     },
   },
@@ -156,5 +162,8 @@ export default {
     display: block;
     opacity: 1;
     transition-delay: .5s;
+  }
+  .delay-fade {
+    transition-delay: .4s;
   }
 </style>

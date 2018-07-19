@@ -24,7 +24,6 @@ const actions = {
         chat,
       },
     }).then((response) => {
-      commit('setCurrentChat', response.data);
       commit('addChat', response.data);
     });
   },
@@ -61,7 +60,6 @@ const actions = {
     });
   },
   setCurrentChat({ commit }, chat) {
-    console.log(chat);
     commit('setCurrentChat', chat);
   },
   fetchAccessibleChats({ commit }) {
@@ -91,6 +89,9 @@ const actions = {
       commit('setMembers', response);
     });
   },
+  clearChatrooms({ commit }) {
+    commit('clearChatrooms');
+  },
 };
 
 const mutations = {
@@ -104,10 +105,12 @@ const mutations = {
     state.accessibleChats = response.data;
   },
   setMembers(state, members) {
-    console.log(members.data);
     state.currentChatMembers = members.data;
-    console.log(state.currentChatMembers);
-    console.log(state.currentChatMembers[0]);
+  },
+  clearChatrooms(state) {
+    state.currentChat = {};
+    state.currentChatMembers = [];
+    state.accessibleChats = [];
   },
 };
 

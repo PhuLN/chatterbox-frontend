@@ -3,12 +3,14 @@
     <div class="top-menu">
       <TopMenu />
     </div>
-    <div class="left-menu"></div>
+    <div class="left-menu">
+      <LeftMenu />
+    </div>
     <div class="main-section box is-radiusless">
       <ChatMessage v-for="message in chatMessages" :key="message._id" :message="message" />
     </div>
     <div class="right-menu">
-      <RightMenu />
+      <RightMenu v-if="hasSelectedChat" />
     </div>
     <div class="lower-menu">
       <ChatBox v-if="hasSelectedChat" />
@@ -19,6 +21,7 @@
 <script>
 import TopMenu from '@/components/chat/structure/TopMenu';
 import RightMenu from '@/components/chat/structure/RightMenu';
+import LeftMenu from '@/components/chat/structure/LeftMenu';
 import ChatMessage from '@/components/chat/Message';
 import ChatBox from '@/components/chat/ChatBox';
 
@@ -28,6 +31,7 @@ export default {
   components: {
     TopMenu,
     RightMenu,
+    LeftMenu,
     ChatMessage,
     ChatBox,
   },
@@ -47,12 +51,10 @@ export default {
   },
   sockets: {
     newMessage(msg) {
-      console.log(msg);
       this.$store.dispatch('receiveMessage', msg).then(() => {
         const container = this.$el.querySelector('.main-section');
         container.scrollTop = container.scrollHeight;
       });
-      console.log('after');
     },
     newUserJoined() {
       this.$store.dispatch('fetchChatMembers');
